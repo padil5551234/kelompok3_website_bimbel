@@ -1,0 +1,34 @@
+{
+    "Matematika": [
+        {
+            "chapter_number": 1,
+            "chapter_title": "Konsep Dasar",
+            "description": "Pengenalan konsep fundamental",
+            "learning_objectives": [
+                "Memahami konsep dasar",
+                "Mampu menerapkan rumus sederhana",
+                "Dapat menyelesaikan soal basic"
+            ]
+        },
+        {
+            "chapter_number": 2,
+            "chapter_title": "Aplikasi Praktis",
+            "description": "Penerapan konsep dalam kehidupan sehari-hari",
+            "learning_objectives": [
+                "Dapat mengaplikasikan konsep",
+                "Mampu menganalisis masalah",
+                "Dapat menemukan solusi"
+            ]
+        },
+        {
+            "chapter_number": 3,
+            "chapter_title": "Soal Lanjutan",
+            "description": "Soal-soal dengan tingkat kesulitan tinggi",
+            "learning_objectives": [
+                "Mampu menyelesaikan soal complex",
+                "Dapat berpikir kritis",
+                " Siap untuk ujian"
+            ]
+        }
+    ]
+}

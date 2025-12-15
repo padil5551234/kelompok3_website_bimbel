@@ -1,0 +1,163 @@
+# Dependencies
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+/storage/logs
+/storage/logs/**
+
+# Caches
+/storage/framework/cache/**
+/storage/framework/sessions/**
+/storage/framework/views/**
+/storage/framework/testing/**
+/bootstrap/cache/**
+!bootstrap/cache/.gitignore
+.phpunit.result.cache
+
+# Testing
+/tests
+/tests/**
+phpunit.xml
+phpunit.xml.dist
+.phpunit.cache
+
+# Database
+/database
+/database/**
+*.sqlite
+*.sqlite-journal
+
+# Development
+Homestead.json
+Homestead.yaml
+/.vagrant
+/docker-compose.yml
+.DS_Store
+Thumbs.db
+.idea
+.vscode
+.editorconfig
+build.sh
+check_*.php
+test_*.php
+fix_*.php
+
+# Git
+.git
+.git/**
+.gitignore
+.gitattributes
+
+# Documentation - exclude ALL markdown
+*.md
+*.MD
+*.drawio
+*.txt
+CHANGELOG*
+CONTRIBUTING*
+HISTORY*
+UPGRADE*
+
+# Build artifacts
+/public/hot
+/public/storage
+
+# Composer
+composer.json
+composer.lock
+/vendor/bin
+/vendor/bin/**
+
+# Config/scripts not needed in production
+artisan
+phpunit.xml
+phpunit.xml.dist
+webpack.mix.js
+tailwind.config.js
+postcss.config.js
+vite.config.js
+package.json
+package-lock.json
+*.config.js
+*.config.ts
+
+# Large/unnecessary public assets
+/public/adminLTE/plugins/datatables-autofill/**
+/public/adminLTE/plugins/codemirror/**
+/public/adminLTE/plugins/inputmask/**
+/public/adminLTE/plugins/jquery-mousewheel/**
+/public/adminLTE/plugins/jquery-ui/**
+/public/adminLTE/plugins/summernote/**
+/public/adminLTE/plugins/tempusdominus-bootstrap-4/**
+/public/adminLTE/plugins/ion-rangeslider/**
+/public/adminLTE/plugins/bootstrap-slider/**
+/public/adminLTE/plugins/jquery-mapael/**
+/public/adminLTE/plugins/sparklines/**
+/public/adminLTE/plugins/select2-bootstrap4-theme/**
+/public/adminLTE/plugins/toastr/**
+/public/adminLTE/build/**
+/public/adminLTE/pages/**
+
+# Exclude vendor dev dependencies (these should not be installed with --no-dev)
+/vendor/laravel/sail/**
+/vendor/phpunit/**
+/vendor/mockery/**
+/vendor/fakerphp/**
+/vendor/nunomaduro/collision/**
+/vendor/spatie/laravel-ignition/**
+/vendor/barryvdh/laravel-debugbar/**
+/vendor/laravel/pint/**
+/vendor/psy/psysh/**
+/vendor/filp/whoops/**
+
+# Exclude vendor tests, docs, and unnecessary files
+/vendor/**/tests/**
+/vendor/**/test/**
+/vendor/**/Tests/**
+/vendor/**/Test/**
+/vendor/**/docs/**
+/vendor/**/doc/**
+/vendor/**/documentation/**
+/vendor/**/examples/**
+/vendor/**/example/**
+/vendor/**/.git/**
+/vendor/**/*.md
+/vendor/**/*.MD
+/vendor/**/*.txt
+/vendor/**/LICENSE*
+/vendor/**/CHANGELOG*
+/vendor/**/CONTRIBUTING*
+/vendor/**/composer.json
+/vendor/**/composer.lock
+/vendor/**/phpunit.xml*
+/vendor/**/.gitignore
+/vendor/**/.gitattributes
+/vendor/**/.editorconfig
+/vendor/**/.php_cs*
+/vendor/**/.travis.yml
+/vendor/**/.github/**
+/vendor/**/phpcs.xml*
+/vendor/**/.scrutinizer.yml
+/vendor/**/psalm.xml*
+/vendor/**/.php-cs-fixer*
+/vendor/**/rector.php
+
+# Exclude specific large vendor packages that have redundant files
+/vendor/symfony/**/Tests/**
+/vendor/symfony/**/Test/**
+/vendor/laravel/framework/src/Illuminate/Foundation/Testing/**
+/vendor/laravel/framework/src/Illuminate/Testing/**
+/vendor/phpoffice/phpspreadsheet/samples/**
+/vendor/almasaeed2010/adminlte/build/**
+/vendor/almasaeed2010/adminlte/docs/**
+
+# Deployment scripts
+/deployment/**

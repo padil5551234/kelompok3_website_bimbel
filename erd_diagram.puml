@@ -1,0 +1,350 @@
+@startuml ERD Diagram
+!define Table(name,desc) class name as "name\n(desc)" << (T,#FFAAAA) >>
+!define primary_key(x) <b>x</b>
+!define foreign_key(x) <i>x</i>
+
+' Entities
+Table(users, "Users table") {
+    primary_key(id : VARCHAR(36))
+    name : VARCHAR(255)
+    email : VARCHAR(255)
+    password : VARCHAR(255)
+    google_id : VARCHAR(255)
+    email_verified_at : TIMESTAMP
+    profile_photo_path : VARCHAR(2048)
+    status : VARCHAR(50)
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(users_detail, "Users Detail table") {
+    primary_key(id : VARCHAR(36))
+    no_hp : VARCHAR(20)
+    provinsi : VARCHAR(100)
+    kabupaten : VARCHAR(100)
+    kecamatan : VARCHAR(100)
+    asal_sekolah : VARCHAR(255)
+    sumber_informasi : JSON
+    prodi : VARCHAR(100)
+    penempatan : VARCHAR(255)
+    instagram : VARCHAR(255)
+    nama_kelompok : VARCHAR(255)
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(paket_ujian, "Paket Ujian table") {
+    primary_key(id : VARCHAR(36))
+    nama : VARCHAR(255)
+    deskripsi : TEXT
+    harga : DECIMAL(10,2)
+    is_featured : BOOLEAN
+    waktu_mulai : DATETIME
+    waktu_akhir : DATETIME
+    whatsapp_group_link : VARCHAR(500)
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(ujian, "Ujian table") {
+    primary_key(id : VARCHAR(36))
+    nama : VARCHAR(255)
+    deskripsi : TEXT
+    peraturan : TEXT
+    jenis_ujian : VARCHAR(100)
+    lama_pengerjaan : INT
+    waktu_mulai : DATETIME
+    waktu_akhir : DATETIME
+    waktu_pengumuman : DATETIME
+    isPublished : BOOLEAN
+    tipe_ujian : VARCHAR(50)
+    tampil_kunci : BOOLEAN
+    tampil_nilai : BOOLEAN
+    tampil_poin : BOOLEAN
+    random : BOOLEAN
+    random_pilihan : BOOLEAN
+    jumlah_soal : INT
+    allow_pembahasan_during_test : BOOLEAN
+    pembahasan_access_limit : INT
+    pembahasan_access_reason : TEXT
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(soal, "Soal table") {
+    primary_key(id : INT)
+    foreign_key(ujian_id : VARCHAR(36))
+    soal : TEXT
+    kunci_jawaban : VARCHAR(10)
+    poin_benar : DECIMAL(5,2)
+    poin_salah : DECIMAL(5,2)
+    poin_kosong : DECIMAL(5,2)
+    pembahasan : TEXT
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(jawaban, "Jawaban table") {
+    primary_key(id : INT)
+    foreign_key(soal_id : INT)
+    jawaban : TEXT
+    point : DECIMAL(5,2)
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(voucher, "Voucher table") {
+    primary_key(id : INT)
+    kode : VARCHAR(50)
+    diskon : DECIMAL(10,2)
+    kuota : INT
+    foreign_key(paket_ujian_id : VARCHAR(36))
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(pembelian, "Pembelian table") {
+    primary_key(id : INT)
+    foreign_key(paket_id : VARCHAR(36))
+    foreign_key(user_id : VARCHAR(36))
+    kode_pembelian : VARCHAR(100)
+    batas_pembayaran : DATETIME
+    nama_kelompok : VARCHAR(255)
+    bukti_transfer : VARCHAR(500)
+    catatan_pembayaran : TEXT
+    status_verifikasi : ENUM
+    catatan_admin : TEXT
+    verified_at : TIMESTAMP
+    foreign_key(verified_by : VARCHAR(36))
+    whatsapp_admin : VARCHAR(255)
+    foreign_key(id_voucher : INT)
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(ujian_user, "Ujian User table") {
+    primary_key(id : VARCHAR(36))
+    foreign_key(ujian_id : VARCHAR(36))
+    foreign_key(user_id : VARCHAR(36))
+    status : VARCHAR(50)
+    jml_benar : INT
+    jml_salah : INT
+    jml_kosong : INT
+    nilai : DECIMAL(5,2)
+    nilai_twk : DECIMAL(5,2)
+    nilai_tiu : DECIMAL(5,2)
+    nilai_tkp : DECIMAL(5,2)
+    waktu_mulai : DATETIME
+    waktu_akhir : DATETIME
+    is_first : BOOLEAN
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(jawaban_peserta, "Jawaban Peserta table") {
+    primary_key(id : INT)
+    foreign_key(ujian_user_id : VARCHAR(36))
+    foreign_key(soal_id : INT)
+    foreign_key(jawaban_id : INT)
+    ragu_ragu : BOOLEAN
+    poin : DECIMAL(5,2)
+    foreign_key(pembelian_id : INT)
+    accessed_pembahasan_at : TIMESTAMP
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(materials, "Materials table") {
+    primary_key(id : VARCHAR(36))
+    foreign_key(batch_id : VARCHAR(36))
+    title : VARCHAR(255)
+    mapel : VARCHAR(100)
+    description : TEXT
+    foreign_key(tutor_id : VARCHAR(36))
+    type : ENUM
+    file_path : VARCHAR(500)
+    youtube_url : VARCHAR(500)
+    external_link : VARCHAR(500)
+    thumbnail_path : VARCHAR(500)
+    file_size : BIGINT
+    file_type : VARCHAR(50)
+    views_count : INT
+    downloads_count : INT
+    is_public : BOOLEAN
+    is_featured : BOOLEAN
+    tags : JSON
+    content : TEXT
+    duration_seconds : INT
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(live_classes, "Live Classes table") {
+    primary_key(id : VARCHAR(36))
+    foreign_key(batch_id : VARCHAR(36))
+    title : VARCHAR(255)
+    description : TEXT
+    foreign_key(tutor_id : VARCHAR(36))
+    meeting_link : VARCHAR(500)
+    meeting_password : VARCHAR(100)
+    platform : ENUM
+    scheduled_at : DATETIME
+    duration_minutes : INT
+    max_participants : INT
+    status : ENUM
+    materials : JSON
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(bank_soal, "Bank Soal table") {
+    primary_key(id : VARCHAR(36))
+    foreign_key(batch_id : VARCHAR(36))
+    foreign_key(tentor_id : VARCHAR(36))
+    nama_banksoal : VARCHAR(255)
+    deskripsi : TEXT
+    mapel : VARCHAR(100)
+    file_banksoal : VARCHAR(500)
+    tanggal_upload : DATE
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(sessions, "Sessions table") {
+    primary_key(id : VARCHAR(36))
+    foreign_key(user_id : VARCHAR(36))
+    ip_address : VARCHAR(45)
+    user_agent : TEXT
+    payload : TEXT
+    last_activity : INT
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(learning_progress, "Learning Progress table") {
+    primary_key(id : INT)
+    foreign_key(user_id : VARCHAR(36))
+    foreign_key(paket_id : VARCHAR(36))
+    foreign_key(material_id : VARCHAR(36))
+    foreign_key(ujian_id : VARCHAR(36))
+    activity_type : ENUM
+    duration_seconds : INT
+    completed_at : TIMESTAMP
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(study_statistics, "Study Statistics table") {
+    primary_key(id : INT)
+    foreign_key(user_id : VARCHAR(36))
+    total_study_time : INT
+    total_materials_viewed : INT
+    total_tryouts_taken : INT
+    average_score : DECIMAL(5,2)
+    last_study_date : DATE
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(articles, "Articles table") {
+    primary_key(id : VARCHAR(36))
+    title : VARCHAR(255)
+    slug : VARCHAR(255)
+    excerpt : TEXT
+    content : TEXT
+    featured_image : VARCHAR(500)
+    category : VARCHAR(100)
+    foreign_key(author_id : VARCHAR(36))
+    status : VARCHAR(50)
+    is_featured : BOOLEAN
+    views_count : INT
+    tags : JSON
+    meta_keywords : JSON
+    meta_description : TEXT
+    published_at : TIMESTAMP
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+    deleted_at : TIMESTAMP
+}
+
+Table(faq, "FAQ table") {
+    primary_key(id : INT)
+    foreign_key(author_id : VARCHAR(36))
+    question : TEXT
+    answer : TEXT
+    is_published : BOOLEAN
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(pengumuman, "Pengumuman table") {
+    primary_key(id : INT)
+    foreign_key(author_id : VARCHAR(36))
+    foreign_key(paket_id : VARCHAR(36))
+    title : VARCHAR(255)
+    content : TEXT
+    is_published : BOOLEAN
+    published_at : TIMESTAMP
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(formasi, "Formasi table") {
+    primary_key(id : INT)
+    kode : VARCHAR(10)
+    nama : VARCHAR(255)
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(prodi, "Prodi table") {
+    primary_key(id : INT)
+    kode : VARCHAR(10)
+    nama : VARCHAR(255)
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+Table(wilayah, "Wilayah table") {
+    primary_key(id : INT)
+    kode : VARCHAR(10)
+    nama : VARCHAR(255)
+    created_at : TIMESTAMP
+    updated_at : TIMESTAMP
+}
+
+' Relationships
+users ||--o{ users_detail : "1-1"
+paket_ujian ||--o{ paket_ujian_ujian : "1-many"
+ujian ||--o{ paket_ujian_ujian : "1-many"
+ujian ||--o{ soal : "1-many"
+soal ||--o{ jawaban : "1-many"
+paket_ujian ||--o{ voucher : "1-many"
+paket_ujian ||--o{ pembelian : "1-many"
+users ||--o{ pembelian : "1-many"
+users ||--o{ pembelian : "verified_by 1-many"
+voucher ||--o{ pembelian : "1-many"
+ujian ||--o{ ujian_user : "1-many"
+users ||--o{ ujian_user : "1-many"
+ujian_user ||--o{ jawaban_peserta : "1-many"
+soal ||--o{ jawaban_peserta : "1-many"
+jawaban ||--o{ jawaban_peserta : "1-many"
+pembelian ||--o{ jawaban_peserta : "1-many"
+paket_ujian ||--o{ materials : "batch_id 1-many"
+users ||--o{ materials : "tutor_id 1-many"
+paket_ujian ||--o{ live_classes : "batch_id 1-many"
+users ||--o{ live_classes : "tutor_id 1-many"
+paket_ujian ||--o{ bank_soal : "batch_id 1-many"
+users ||--o{ bank_soal : "tentor_id 1-many"
+users ||--o{ sessions : "1-many"
+users ||--o{ learning_progress : "1-many"
+paket_ujian ||--o{ learning_progress : "paket_id 1-many"
+materials ||--o{ learning_progress : "material_id 1-many"
+ujian ||--o{ learning_progress : "ujian_id 1-many"
+users ||--o{ study_statistics : "1-1"
+users ||--o{ articles : "author_id 1-many"
+users ||--o{ faq : "author_id 1-many"
+users ||--o{ pengumuman : "author_id 1-many"
+paket_ujian ||--o{ pengumuman : "paket_id 1-many"
+
+@enduml

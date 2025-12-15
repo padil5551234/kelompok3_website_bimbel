@@ -1,0 +1,482 @@
+/* ===== LEARNING MODULE STYLING ===== */
+/* File: resources/css/learning-module.css */
+
+/* Page Background - Simple and Clean */
+.material-detail-page {
+    background: #f8f9fa;
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+/* Breadcrumb - Simple Navigation */
+.breadcrumb-simple {
+    background: white;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.breadcrumb-simple .breadcrumb-item a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.breadcrumb-simple .breadcrumb-item a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.breadcrumb-simple .breadcrumb-item.active {
+    color: #6c757d;
+    font-weight: 600;
+}
+
+/* ===== MAIN MODULE CONTAINER ===== */
+.module-container {
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+/* ===== MODULE HEADER ===== */
+.module-header {
+    border-bottom: 2px solid #e9ecef;
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+}
+
+.module-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.module-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    color: #6c757d;
+    font-size: 0.95rem;
+}
+
+.module-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.module-meta-icon {
+    color: #007bff;
+}
+
+/* ===== BABB SECTION (CHAPTERS) ===== */
+.chapter-section {
+    margin-bottom: 3rem;
+}
+
+.chapter-header {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.chapter-icon {
+    width: 50px;
+    height: 50px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.chapter-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.chapter-description {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin: 0.5rem 0 0 0;
+}
+
+/* ===== ACCORDION/ CARD GROUP ===== */
+.materials-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .materials-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 992px) {
+    .materials-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Individual Material Card */
+.material-card {
+    background: white;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.material-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    border-color: #007bff;
+}
+
+.material-card-header {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.material-type-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: white;
+}
+
+.material-type-video {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+}
+
+.material-type-document {
+    background: linear-gradient(135deg, #fd7e14 0%, #e8650e 100%);
+}
+
+.material-type-youtube {
+    background: linear-gradient(135deg, #dc3545 0%, #ff0000 100%);
+}
+
+.material-type-link {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+}
+
+.material-card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.material-card-body {
+    padding: 1rem;
+}
+
+.material-card-description {
+    color: #6c757d;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.material-card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.material-card-duration {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.material-card-status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-available {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-preview {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.status-locked {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* ===== SECTION CONTAINER ===== */
+.section-container {
+    margin-bottom: 2rem;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    border-left: 4px solid #007bff;
+}
+
+.section-content {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+/* ===== BACK BUTTON ===== */
+.back-button {
+    background: #007bff;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover {
+    background: #0056b3;
+    color: white;
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .material-detail-page {
+        padding: 1rem 0;
+    }
+    
+    .module-container {
+        padding: 1.5rem;
+    }
+    
+    .module-title {
+        font-size: 2rem;
+    }
+    
+    .module-meta {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .materials-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .chapter-header {
+        padding: 1rem;
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .chapter-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.module-container {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.material-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.material-card:nth-child(1) { animation-delay: 0.1s; }
+.material-card:nth-child(2) { animation-delay: 0.2s; }
+.material-card:nth-child(3) { animation-delay: 0.3s; }
+.material-card:nth-child(4) { animation-delay: 0.4s; }
+.material-card:nth-child(5) { animation-delay: 0.5s; }
+.material-card:nth-child(6) { animation-delay: 0.6s; }
+
+/* ===== LEARNING MODULE ADDITIONS ===== */
+/* Additional styles for better module organization */
+
+/* Module Badge */
+.module-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: #007bff;
+    color: white;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Progress Indicator */
+.progress-indicator {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 6px;
+    background: #e9ecef;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    transition: width 0.3s ease;
+}
+
+/* Chapter Navigation */
+.chapter-nav {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.chapter-nav-item {
+    padding: 0.75rem 1.5rem;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    color: #495057;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.chapter-nav-item:hover {
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-color: #007bff;
+}
+
+.chapter-nav-item.active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Material List in Chapter */
+.chapter-materials {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chapter-materials li {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: background 0.3s ease;
+}
+
+.chapter-materials li:hover {
+    background: #f8f9fa;
+}
+
+.chapter-materials li:last-child {
+    border-bottom: none;
+}
+
+.material-number {
+    width: 30px;
+    height: 30px;
+    background: #007bff;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.material-info {
+    flex: 1;
+}
+
+.material-name {
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 0.25rem;
+}
+
+.material-details {
+    font-size: 0.85rem;
+    color: #6c757d;
+}
+
+.material-status-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.status-icon-available {
+    background: #28a745;
+}
+
+.status-icon-preview {
+    background: #ffc107;
+}
+
+.status-icon-locked {
+    background: #dc3545;
+}

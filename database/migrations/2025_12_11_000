@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('learning_module_sections', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('learning_module_id')->constrained('learning_modules')->onDelete('cascade');
+            $table->string('title'); // Judul section/chapter
+            $table->string('subtitle')->nullable(); // Sub judul section
+            $table->text('description')->nullable(); // Deskripsi section
+            $table->integer('order_number')->default(0); // Urutan section dalam modul
+            $table->integer('estimated_duration')->nullable(); // Estimasi durasi (menit)
+            $table->integer('total_lessons')->default(0); // Total lesson dalam section
+            $table->boolean('is_published')->default(false);
+            $table->string('section_type')->default('chapter'); // chapter, unit, lesson_group
+            $table->json('section_objectives')->nullable(); // Tujuan section
+            $table->text('introduction_text')->nullable(); // Teks introduksi section
+            $table->string('thumbnail_path')->nullable(); // Path thumbnail section
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('learning_module_sections');
+    }
+};

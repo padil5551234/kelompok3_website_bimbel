@@ -1,0 +1,64 @@
+# This file controls what gets included in the serverless function
+
+# Exclude everything by default
+*
+
+# Include only essential directories
+!vendor/
+!bootstrap/
+!app/
+!config/
+!routes/
+!resources/views/
+!storage/framework/
+!public/build/
+!public/css/
+!public/js/
+!public/icon/
+!public/img/
+!public/images/
+!public/fonts/
+!public/adminLTE/dist/
+!public/adminLTE/plugins/jquery/
+!public/adminLTE/plugins/bootstrap/
+!public/adminLTE/plugins/select2/
+!public/adminLTE/plugins/datatables/
+!public/adminLTE/plugins/datatables-bs4/
+!public/adminLTE/plugins/datatables-buttons/
+!public/adminLTE/plugins/datatables-responsive/
+!public/favicon.ico
+!public/index.php
+!public/.htaccess
+!public/robots.txt
+
+# Exclude specific vendor subdirectories
+vendor/bin/
+vendor/**/tests/
+vendor/**/test/
+vendor/**/Tests/
+vendor/**/Test/
+vendor/**/docs/
+vendor/**/doc/
+vendor/**/documentation/
+vendor/**/examples/
+vendor/**/example/
+vendor/**/.git/
+vendor/**/*.md
+vendor/**/*.MD
+vendor/**/*.txt
+vendor/**/LICENSE*
+vendor/**/CHANGELOG*
+vendor/**/composer.json
+vendor/**/composer.lock
+vendor/**/phpunit.xml*
+vendor/**/.gitignore
+
+# Exclude storage caches
+storage/framework/cache/
+storage/framework/sessions/
+storage/framework/views/
+storage/logs/
+
+# Exclude unnecessary bootstrap cache
+bootstrap/cache/*
+!bootstrap/cache/.gitignore

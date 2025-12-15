@@ -1,0 +1,74 @@
+/* Modern Glassmorphism Design System - SCOPED VERSION */
+/* Hanya berlaku untuk halaman public/frontend */
+
+.modern-theme {
+    /* CSS Variables */
+    --primary-color: #8b5cf6;
+    --secondary-color: #a855f7;
+    --accent-color: #c084fc;
+    --background-gradient: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+    --glass-bg: rgba(139, 92, 246, 0.1);
+    --glass-border: rgba(196, 132, 252, 0.3);
+    --glass-shadow: 0 8px 32px 0 rgba(139, 92, 246, 0.37);
+    --text-primary: #2d3748;
+    --text-secondary: #4a5568;
+    --text-light: #ffffff;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --info-color: #8b5cf6;
+}
+
+/* Scoped Reset - hanya untuk modern-theme */
+.modern-theme * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.modern-theme {
+    font-family: 'Poppins', sans-serif;
+    background: var(--background-gradient);
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: var(--text-primary);
+}
+
+/* Glass morphism card effect */
+.modern-theme .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    padding: 2rem;
+    transition: all 0.3s ease;
+}
+
+.modern-theme .glass-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 45px 0 rgba(31, 38, 135, 0.5);
+}
+
+/* Modern Header */
+.modern-theme .modern-header {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.modern-theme .modern-header.scrolled {
+    background: rgba(102, 126, 234, 0.9);
+    backdrop-filter: blur(20px);
+}
+
+/* Semua selector lainnya diberi prefix .modern-theme */
+/* ... sisanya sama seperti custom.css tapi dengan prefix .modern-theme */

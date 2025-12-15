@@ -1,0 +1,541 @@
+/* ====================================
+   CUSTOM CSS VARIABLES - EDIT HERE!
+   ==================================== */
+:root {
+    /* Primary Colors - Ubah warna utama di sini */
+    --primary-color: #9333ea;        /* Ungu utama */
+    --primary-hover: #7e22ce;        /* Ungu hover */
+    --secondary-color: #1e293b;      /* Warna sekunder gelap */
+
+
+    /* Text Colors */
+    --text-dark: #1e293b;
+    --text-light: #64748b;
+    --text-white: #ffffff;
+    --text-pink: #9333ea;
+
+    /* Spacing - Ubah jarak di sini */
+    --section-padding: 80px;
+    --card-padding: 30px;
+    --border-radius: 10px;
+
+    /* Shadows */
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* ====================================
+   GENERAL RESET & BASE STYLES
+   ==================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ====================================
+   HERO SECTION
+   ==================================== */
+#hero {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* opsional, bikin efek parallax */
+    position: relative;
+}
+
+#hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #9333ea !important;
+    margin-bottom: 20px;
+}
+
+#hero h1 span {
+    color: #9333ea !important;
+}
+
+#hero h2 {
+    color: var(--text-dark);
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+#hero h3 {
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: normal;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+
+.btn-get-started {
+    background: var(--bg-white);
+    color: var(--primary-color);
+    padding: 12px 35px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.btn-get-started:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    color: var(--primary-color);
+}
+
+/* ====================================
+   ABOUT SECTION
+   ==================================== */
+#about {
+    padding: var(--section-padding) 0;
+    background: var(--bg-white);
+}
+
+#about h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-pink);
+    margin-bottom: 20px;
+}
+
+.icon-box {
+    padding: var(--card-padding);
+    border-radius: var(--border-radius);
+    background: var(--bg-white);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 30px;
+    transition: all 0.3s ease;
+}
+
+.icon-box:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.icon-box .icon {
+    width: 60px;
+    height: 60px;
+    background: var(--primary-color);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    font-size: 24px;
+    color: var(--text-pink);
+}
+
+.icon-box .title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: 10px;
+}
+
+.icon-box .title a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.icon-box .description {
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+/* ====================================
+   COUNTS SECTION
+   ==================================== */
+#counts {
+    padding: var(--section-padding) 0;
+    background: var(--primary-color);
+}
+
+.count-box {
+    background: rgba(255,255,255,0.1);
+    padding: 40px 30px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.count-box:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateY(-5px);
+}
+
+.count-box i {
+    font-size: 3rem;
+    color: var(--text-white);
+    margin-bottom: 15px;
+}
+
+.count-box span {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--text-white);
+    display: block;
+    margin-bottom: 10px;
+}
+
+.count-box p {
+    color: var(--text-white);
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* ====================================
+   PRICING SECTION
+   ==================================== */
+#pricing {
+    padding: var(--section-padding) 0;
+    background: var(--bg-light);
+}
+
+.section-title h2 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.section-title p {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 40px;
+}
+
+.box {
+    background: var(--bg-white);
+    padding: var(--card-padding);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    position: relative;
+    height: 100%;
+}
+
+.box:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+}
+
+.box .advanced {
+    position: absolute;
+    top: 20px;
+    right: -30px;
+    background: var(--primary-color);
+    color: var(--text-white);
+    padding: 5px 40px;
+    transform: rotate(45deg);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.box h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 15px;
+}
+
+.box h4 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.box h4 sup {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.btn-buy {
+    background: var(--primary-color);
+    color: var(--text-white);
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-buy:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    color: var(--text-white);
+}
+
+/* ====================================
+   TUTORS SECTION
+   ==================================== */
+#tutors {
+    padding: var(--section-padding) 0;
+    background: var(--bg-light);
+}
+
+.tutor-card {
+    background: var(--bg-white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.tutor-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+}
+
+.tutor-image {
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.tutor-image::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, rgba(0,0,0,0.1), transparent);
+}
+
+.tutor-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.4s ease;
+}
+
+.tutor-card:hover .tutor-image img {
+    transform: scale(1.05);
+}
+
+.tutor-info {
+    padding: 35px 30px;
+    text-align: center;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom, var(--bg-white), #fafafa);
+}
+
+.tutor-info h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+    font-family: 'Poppins', 'Segoe UI', Tahoma, sans-serif;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+}
+
+.tutor-info h3::after {
+    content: '';
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+.tutor-info .tutor-title {
+    color: var(--primary-color);
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 18px;
+    margin-top: 12px;
+    letter-spacing: 0.3px;
+    font-family: 'Poppins', 'Segoe UI', Tahoma, sans-serif;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.tutor-info .tutor-desc {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.8;
+    max-width: 95%;
+    margin: 0 auto;
+    font-family: 'Open Sans', 'Segoe UI', Tahoma, sans-serif;
+    font-weight: 400;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .tutor-image {
+        height: 300px;
+    }
+    
+    .tutor-info h3 {
+        font-size: 1.5rem;
+    }
+    
+    .tutor-info .tutor-title {
+        font-size: 0.85rem;
+    }
+    
+    .tutor-info .tutor-desc {
+        font-size: 0.95rem;
+    }
+    
+    .tutor-info {
+        padding: 25px 20px;
+    }
+}
+
+
+/* ====================================
+   CONTACT SECTION
+   ==================================== */
+#contact {
+    padding: var(--section-padding) 0;
+    background: var(--bg-white);
+}
+
+.info {
+    background: var(--bg-white);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+}
+
+.info > div {
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    background: var(--bg-light);
+    transition: all 0.3s ease;
+}
+
+.info > div:hover {
+    background: var(--primary-color);
+    color: var(--text-white);
+}
+
+.info > div:hover h4,
+.info > div:hover p,
+.info > div:hover a {
+    color: var(--text-white) !important;
+}
+
+.info i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.info > div:hover i {
+    color: var(--text-white);
+}
+
+.php-email-form {
+    background: var(--bg-white);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+}
+
+.php-email-form input,
+.php-email-form textarea {
+    border-radius: var(--border-radius);
+    border: 2px solid var(--bg-gray);
+    padding: 12px 20px;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.php-email-form input:focus,
+.php-email-form textarea:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.php-email-form button[type="submit"] {
+    background: var(--primary-color);
+    color: var(--text-white);
+    padding: 12px 40px;
+    border-radius: 50px;
+    border: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.php-email-form button[type="submit"]:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+/* ====================================
+   ALERT
+   ==================================== */
+.alert {
+    border-radius: var(--border-radius);
+    padding: 20px;
+    border: none;
+    box-shadow: var(--shadow-sm);
+}
+
+/* ====================================
+   RESPONSIVE
+   ==================================== */
+@media (max-width: 768px) {
+    #hero h1 {
+        font-size: 2rem;
+    }
+    #hero h2 {
+        font-size: 1rem;
+    }
+    .section-title p {
+        font-size: 1.5rem;
+    }
+    .tutor-image {
+        height: 250px;
+    }
+    :root {
+        --section-padding: 60px;
+        --card-padding: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    #hero h1 {
+        font-size: 1.75rem;
+    }
+    .count-box span {
+        font-size: 2.5rem;
+    }
+    .box {
+        margin-bottom: 20px;
+    }
+}

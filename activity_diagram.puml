@@ -1,0 +1,103 @@
+@startuml Activity Diagram - Tryout Master Exam Flow
+
+start
+
+:User visits website;
+
+if (Logged in?) then (No)
+  :Redirect to login;
+  :User enters credentials;
+  if (Valid credentials?) then (Yes)
+    :Authenticate user;
+  else (No)
+    :Show error message;
+    stop
+  endif
+else (Yes)
+  :Check user role;
+endif
+
+:Redirect to dashboard based on role;
+
+if (User role?) then (Student)
+  :Display student dashboard;
+  :User browses available features;
+  if (Wants to take exam?) then (Yes)
+    :Select tryout/exam;
+    if (Has access?) then (Yes)
+      :Display exam details;
+      :User starts exam;
+      :Load first question;
+      while (Questions remaining?)
+        :Display question;
+        :User selects answer;
+        :Save answer;
+        if (Time up?) then (Yes)
+          :Auto-submit exam;
+          break
+        endif
+      endwhile
+      :Submit exam;
+      :Calculate score;
+      :Display results;
+      :Save to database;
+    else (No)
+      :Show access denied;
+      :Suggest purchase;
+      if (Wants to purchase?) then (Yes)
+        :Select package;
+        :Enter payment details;
+        :Process payment;
+        if (Payment successful?) then (Yes)
+          :Grant access;
+        else (No)
+          :Show payment failed;
+        endif
+      endif
+    endif
+  elseif (Wants to view materials?) then (Yes)
+    :Browse materials;
+    :Select material;
+    :View/download material;
+  elseif (Wants to view live classes?) then (Yes)
+    :Browse live classes;
+    :Join live class;
+  elseif (Wants to view progress?) then (Yes)
+    :Display learning progress;
+  endif
+
+elseif (User role?) then (Admin)
+  :Display admin dashboard;
+  :Admin manages system;
+  if (Wants to create exam?) then (Yes)
+    :Create/edit exam;
+    :Add questions;
+    :Set parameters;
+    :Publish exam;
+  elseif (Wants to manage users?) then (Yes)
+    :View user list;
+    :Edit user details;
+  elseif (Wants to view reports?) then (Yes)
+    :Generate reports;
+  endif
+
+elseif (User role?) then (Tutor)
+  :Display tutor dashboard;
+  :Tutor manages content;
+  if (Wants to upload material?) then (Yes)
+    :Upload material;
+    :Set access permissions;
+  elseif (Wants to schedule live class?) then (Yes)
+    :Create live class;
+    :Set schedule;
+    :Publish to students;
+  elseif (Wants to manage question bank?) then (Yes)
+    :Add/edit questions;
+  endif
+endif
+
+:User logs out or session ends;
+
+stop
+
+@enduml

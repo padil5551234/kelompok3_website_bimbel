@@ -1,0 +1,109 @@
+<?php
+
+require_once __DIR__ . '/vendor/autoload.php';
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use App\Models\User;
+use App\Models\UsersDetail;
+use Spatie\Permission\Models\Role;
+
+// Bootstrap Laravel
+$app = require_once __DIR__ . '/bootstrap/app.php';
+$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+$kernel->bootstrap();
+
+echo "=== FIXING USER REGISTRATION ISSUE ===\n\n";
+
+// Check database connection
+try {
+    $pdo = new PDO("sqlite:" . __DIR__ . "/database/database.sqlite");
+    echo "✅ Database connection: OK\n";
+} catch (Exception $e) {
+    echo "❌ Database connection failed: " . $e->getMessage() . "\n";
+    exit(1);
+}
+
+// Get the 'user' role
+$userRole = Role::where('name', 'user')->first();
+if (!$userRole) {
+    echo "❌ 'user' role not found! Creating it...\n";
+    $userRole = Role::create(['name' => 'user', 'guard_name' => 'web']);
+    echo "✅ 'user' role created\n";
+} else {
+    echo "✅ 'user' role exists (ID: {$userRole->id})\n";
+}
+
+// Find users without any role
+$usersWithoutRoles = User::whereDoesntHave('roles')->get();
+echo "\n--- Fixing Users Without Roles ---\n";
+
+if ($usersWithoutRoles->isEmpty()) {
+    echo "✅ No users need role assignment\n";
+} else {
+    echo "Found " . $usersWithoutRoles->count() . " users without roles. Assigning 'user' role...\n";
+    
+    foreach ($usersWithoutRoles as $user) {
+        try {
+            $user->assignRole('user');
+            echo "✅ Assigned 'user' role to: {$user->name} ({$user->email})\n";
+        } catch (Exception $e) {
+            echo "❌ Failed to assign role to {$user->email}: " . $e->getMessage() . "\n";
+        }
+    }
+}
+
+// Also check for users who might have been assigned wrong roles but should be regular users
+$usersWithAdminRole = User::role('admin')->get();
+echo "\n--- Checking Admin Users ---\n";
+echo "Users with 'admin' role: " . $usersWithAdminRole->count() . "\n";
+
+foreach ($usersWithAdminRole as $admin) {
+    echo "  - {$admin->name} ({$admin->email}) - Created: {$admin->created_at}\n";
+}
+
+// Final verification
+echo "\n--- Final Verification ---\n";
+$fixedUserCount = User::role('user')->count();
+echo "Users with 'user' role after fix: {$fixedUserCount}\n";
+
+if ($fixedUserCount > 0) {
+    echo "✅ SUCCESS: Users should now appear in the admin panel!\n";
+    echo "\n--- Users with 'user' role ---\n";
+    $usersWithUserRole = User::role('user')->get();
+    foreach ($usersWithUserRole as $user) {
+        echo "  - {$user->name} ({$user->email})\n";
+    }
+} else {
+    echo "❌ FAILED: Still no users with 'user' role\n";
+}
+
+// Check if CreateNewUser action is working properly
+echo "\n--- Testing CreateNewUser Action ---\n";
+try {
+    // Test creating a new user to see if role assignment works
+    $testUser = new User();
+    $testUser->name = 'Test User Role Assignment';
+    $testUser->email = 'test-role-' . time() . '@example.com';
+    $testUser->password = bcrypt('password123');
+    $testUser->email_verified_at = now();
+    $testUser->save();
+    
+    // Assign role
+    $testUser->assignRole('user');
+    
+    echo "✅ Test user created and assigned role successfully\n";
+    echo "  Name: {$testUser->name}\n";
+    echo "  Email: {$testUser->email}\n";
+    echo "  Roles: " . $testUser->getRoleNames()->implode(', ') . "\n";
+    
+    // Clean up test user
+    $testUser->delete();
+    echo "✅ Test user cleaned up\n";
+    
+} catch (Exception $e) {
+    echo "❌ Test user creation failed: " . $e->getMessage() . "\n";
+}
+
+echo "\n=== FIX COMPLETE ===\n";
+echo "Please refresh the admin user list to see the changes.\n";

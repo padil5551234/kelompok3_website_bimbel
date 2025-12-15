@@ -1,0 +1,37 @@
+{
+  "version": 2,
+  "framework": null,
+  "outputDirectory": "public",
+  "builds": [
+    {
+      "src": "api/index.php",
+      "use": "vercel-php@0.7.3",
+      "config": {
+        "buildCommand": "bash build.sh",
+        "maxLambdaSize": "50mb"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/build/(.*)",
+      "dest": "/build/$1"
+    },
+    {
+      "src": "/(css|js|images|fonts|icon|img|adminLTE|storage)/(.*)",
+      "dest": "/$1/$2"
+    },
+    {
+      "src": "/(.*\\.(css|js|json|ico|png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot|webp|avif))",
+      "dest": "/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.php"
+    }
+  ],
+  "env": {
+    "APP_ENV": "production",
+    "APP_DEBUG": "false"
+  }
+}
