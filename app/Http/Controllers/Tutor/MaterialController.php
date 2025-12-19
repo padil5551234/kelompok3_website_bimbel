@@ -54,7 +54,9 @@ class MaterialController extends Controller
      */
     public function create()
     {
-        $paketUjians = \App\Models\PaketUjian::all(); // Or filter based on tutor's access if needed
+        $paketUjians = \App\Models\PaketUjian::whereHas('materials', function($query) {
+            $query->where('tutor_id', Auth::id());
+        })->get();
 
         return view('tutor.materials.create', compact('paketUjians'));
     }
@@ -168,7 +170,9 @@ class MaterialController extends Controller
     {
         $this->authorize('update', $material);
 
-        $paketUjians = \App\Models\PaketUjian::all(); // Or filter based on tutor's access if needed
+        $paketUjians = \App\Models\PaketUjian::whereHas('materials', function($query) {
+            $query->where('tutor_id', Auth::id());
+        })->get();
 
         return view('tutor.materials.edit', compact('material', 'paketUjians'));
     }

@@ -42,7 +42,7 @@ class LiveClassController extends Controller
      */
     public function create()
     {
-        $paketUjians = \App\Models\PaketUjian::all(); // Or filter based on tutor's access if needed
+        $paketUjians = \App\Models\PaketUjian::where('is_active', true)->get();
 
         return view('tutor.live-classes.create', compact('paketUjians'));
     }
@@ -106,7 +106,7 @@ class LiveClassController extends Controller
     {
         $this->authorize('update', $liveClass);
 
-        $paketUjians = \App\Models\PaketUjian::all(); // Or filter based on tutor's access if needed
+        $paketUjians = \App\Models\PaketUjian::where('is_active', true)->get();
 
         return view('tutor.live-classes.edit', compact('liveClass', 'paketUjians'));
     }

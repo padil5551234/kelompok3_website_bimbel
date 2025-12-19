@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Tutor;
 use App\Http\Controllers\Controller;
 use App\Models\LiveClass;
 use App\Models\Material;
+use App\Models\Tutor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class TutorController extends Controller
 {
@@ -53,5 +55,51 @@ class TutorController extends Controller
             ->get();
 
         return view('tutor.dashboard', compact('stats', 'upcomingClasses', 'recentMaterials'));
+    }
+
+    /**
+     * Show the tutor profile form.
+     */
+    public function profile()
+    {
+        $tutor = Auth::user();
+        $tutorProfile = $tutor->tutorProfile ?? new Tutor(['user_id' => $tutor->id]);
+
+        return view('tutor.profile', compact('tutor', 'tutorProfile'));
+    }
+
+    /**
+     * Update the tutor profile.
+     */
+    public function updateProfile(Request $request)
+    {
+        $tutor = Auth::user();
+
+        $request->validate([
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'bio' => 'nullable|string|max:1000',
+            'specialization' => 'nullable|string|max:255',
+            'experience' => 'nullable|string|max:255',
+        ]);
+
+        $tutorProfile = $tutor->tutorProfile ?? new Tutor(['user_id' => $tutor->id]);
+
+        $tutorProfile->bio = $request->bio;
+        $tutorProfile->specialization = $request->specialization;
+        $tutorProfile->experience = $request->experience;
+
+        if ($request->hasFile('image')) {
+            // Delete old image
+            if ($tutorProfile->image && Storage::disk('public')->exists($tutorProfile->image)) {
+                Storage::disk('public')->delete($tutorProfile->image);
+            }
+            $imagePath = $request->file('image')->store('tutors', 'public');
+            $tutorProfile->image = $imagePath;
+        }
+
+        $tutorProfile->save();
+
+        return redirect()->route('tutor.profile')
+            ->with('success', 'Profile berhasil diperbarui');
     }
 }

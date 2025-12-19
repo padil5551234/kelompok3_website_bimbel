@@ -143,6 +143,16 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Get the tutor profile associated with the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function tutorProfile()
+    {
+        return $this->hasOne(Tutor::class, 'user_id', 'id');
+    }
+
+    /**
      * Check if user is a tutor
      *
      * @return bool

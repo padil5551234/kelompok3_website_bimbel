@@ -162,9 +162,9 @@
                                         <i class="fas fa-align-left"></i>
                                     </span>
                                 </div>
-                                <textarea name="course_description" rows="4" 
-                                          class="form-control" 
-                                          placeholder="Provide a detailed description of your course..." required>{{ $course->deskripsi ?? '' }}</textarea>
+                                <textarea id="course_description" name="course_description" rows="4"
+                                          class="form-control"
+                                          placeholder="Provide a detailed description of your course..." required></textarea>
                             </div>
                             <small class="form-text text-muted">Describe what students will learn in this course</small>
                         </div>
@@ -734,6 +734,27 @@
     // Initialize with one chapter if no existing chapters
     @if($existingChapters->count() == 0)
         // Don't auto-add, let user decide
+    @endif
+
+    // Initialize Summernote for course description
+    $('#course_description').summernote({
+        height: 150,
+        placeholder: 'Provide a detailed description of your course...',
+        toolbar: [
+            ['style', ['bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+    });
+
+    // Set existing content for editing
+    @if($course && $course->deskripsi)
+        $('#course_description').summernote('code', '{{ $course->deskripsi }}');
     @endif
 </script>
 @endpush

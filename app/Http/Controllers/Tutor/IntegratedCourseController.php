@@ -22,14 +22,10 @@ class IntegratedCourseController extends Controller
      */
     public function dashboard()
     {
-        // Get courses that have materials by this tutor
-        $courses = PaketUjian::whereHas('materials', function($query) {
-            $query->where('tutor_id', Auth::id());
-        })->withCount(['materials' => function($query) {
-            $query->where('tutor_id', Auth::id());
-        }])->get();
+        // Get all active courses with total material counts
+        $courses = PaketUjian::where('is_active', true)->withCount('materials')->get();
 
-        $totalMaterials = Material::where('tutor_id', Auth::id())->count();
+        $totalMaterials = Material::count();
         $totalCourses = $courses->count();
 
         return view('tutor.integrated-dashboard', compact('courses', 'totalMaterials', 'totalCourses'));
@@ -40,16 +36,10 @@ class IntegratedCourseController extends Controller
      */
     public function showIntegratedForm($courseId = null)
     {
-        $course = $courseId ? PaketUjian::findOrFail($courseId) : null;
+        $course = $courseId ? PaketUjian::where('is_active', true)->findOrFail($courseId) : null;
 
-        // Ensure tutor can only edit courses they have materials in
-        if ($course && !$course->materials()->where('tutor_id', Auth::id())->exists()) {
-            abort(403, 'Anda tidak memiliki akses ke course ini.');
-        }
-
-        // Get existing materials dengan proper ordering
+        // Get existing materials dengan proper ordering (all materials for the course)
         $existingMaterials = $course ? Material::where('batch_id', $course->id)
-            ->where('tutor_id', Auth::id())
             ->orderBy('chapter_number')
             ->orderBy('material_order')
             ->get() : collect();
@@ -92,10 +82,7 @@ class IntegratedCourseController extends Controller
                 ]
             );
 
-            // Check if tutor has materials in this course, if updating
-            if ($request->course_id && !$course->materials()->where('tutor_id', Auth::id())->exists()) {
-                throw new \Exception('Anda tidak memiliki akses untuk mengedit course ini.');
-            }
+            // Allow editing any active course
 
             // 2. Handle existing materials dengan proper ordering
             if ($request->course_id) {
@@ -195,7 +182,6 @@ class IntegratedCourseController extends Controller
 
                     if (!empty($chapterMaterialsToDelete)) {
                         $chapterDeletedCount = Material::where('batch_id', $course->id)
-                            ->where('tutor_id', Auth::id())
                             ->whereIn('id', $chapterMaterialsToDelete)
                             ->delete();
 
@@ -210,7 +196,6 @@ class IntegratedCourseController extends Controller
                 // Delete materials yang explicitly marked for deletion
                 if (!empty($materialsToDelete)) {
                     $deletedCount = Material::where('batch_id', $course->id)
-                        ->where('tutor_id', Auth::id())
                         ->whereIn('id', $materialsToDelete)
                         ->delete();
 
@@ -224,7 +209,6 @@ class IntegratedCourseController extends Controller
                 // This prevents accidental deletion of materials when adding new chapters
                 if (!$hasNewMaterials && $existingMaterials->count() > 0) {
                     $implicitDeletedCount = Material::where('batch_id', $course->id)
-                        ->where('tutor_id', Auth::id())
                         ->whereNotIn('id', $materialsToKeep)
                         ->delete();
 
@@ -275,7 +259,6 @@ class IntegratedCourseController extends Controller
                     // Update existing material atau create new
                     if (isset($materialFormData['id']) && !empty($materialFormData['id'])) {
                         Material::where('id', $materialFormData['id'])
-                            ->where('tutor_id', Auth::id()) // Ensure tutor owns the material
                             ->update($updateData);
                         \Log::info('Tutor IntegratedCourse: Updated existing material', [
                             'material_id' => $materialFormData['id'],
@@ -310,9 +293,7 @@ class IntegratedCourseController extends Controller
      */
     public function editMaterial($materialId)
     {
-        $material = Material::where('id', $materialId)
-            ->where('tutor_id', Auth::id())
-            ->firstOrFail();
+        $material = Material::findOrFail($materialId);
 
         return view('tutor.material-edit', compact('material'));
     }
@@ -332,9 +313,7 @@ class IntegratedCourseController extends Controller
         DB::beginTransaction();
 
         try {
-            $material = Material::where('id', $materialId)
-                ->where('tutor_id', Auth::id())
-                ->firstOrFail();
+            $material = Material::findOrFail($materialId);
 
             $material->update([
                 'title' => $request->title,
@@ -367,9 +346,7 @@ class IntegratedCourseController extends Controller
         DB::beginTransaction();
 
         try {
-            $material = Material::where('id', $materialId)
-                ->where('tutor_id', Auth::id())
-                ->firstOrFail();
+            $material = Material::findOrFail($materialId);
 
             $batchId = $material->batch_id;
 
@@ -394,7 +371,6 @@ class IntegratedCourseController extends Controller
     private function reorderMaterials($batchId)
     {
         $materials = Material::where('batch_id', $batchId)
-            ->where('tutor_id', Auth::id())
             ->orderBy('chapter_number')
             ->orderBy('material_order')
             ->get();
@@ -419,10 +395,8 @@ class IntegratedCourseController extends Controller
      */
     public function showQuickAddForm()
     {
-        // Get courses that tutor has materials in
-        $courses = PaketUjian::whereHas('materials', function($query) {
-            $query->where('tutor_id', Auth::id());
-        })->orderBy('nama', 'asc')->get();
+        // Get all active courses
+        $courses = PaketUjian::where('is_active', true)->orderBy('nama', 'asc')->get();
 
         return view('tutor.quick-add-materials', compact('courses'));
     }
@@ -447,11 +421,8 @@ class IntegratedCourseController extends Controller
             return back()->withErrors($e->errors())->withInput();
         }
 
-        // Verify tutor has access to this course
+        // Get the course
         $course = PaketUjian::findOrFail($request->course_id);
-        if (!$course->materials()->where('tutor_id', Auth::id())->exists()) {
-            return back()->with('error', 'Anda tidak memiliki akses ke course ini.');
-        }
 
         DB::beginTransaction();
 
@@ -465,7 +436,6 @@ class IntegratedCourseController extends Controller
 
                 // Get next material order for this chapter
                 $nextOrder = Material::where('batch_id', $course->id)
-                    ->where('tutor_id', Auth::id())
                     ->where('chapter_number', $chapterNumber)
                     ->max('material_order') + 1;
 

@@ -27,6 +27,7 @@ class PaketUjian extends Model
         'kategori',
         'level',
         'is_featured',
+        'is_active',
         'waktu_mulai',
         'waktu_akhir',
         'whatsapp_group_link',

@@ -218,7 +218,7 @@ Dashboard
                                             <td>
                                                 <strong>{{ $course->nama }}</strong>
                                                 <br>
-                                                <small class="text-muted">{{ Str::limit($course->deskripsi, 50) }}</small>
+                                                <small class="text-muted">{!! Str::limit($course->deskripsi, 50) !!}</small>
                                             </td>
                                             <td>
                                                 <span class="badge badge-info">{{ $course->kategori }}</span>

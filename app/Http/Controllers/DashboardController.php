@@ -10,6 +10,7 @@ use App\Models\Pembelian;
 use App\Models\PaketUjian;
 use App\Models\Article;
 use App\Models\Material;
+use App\Models\Tutor;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
@@ -63,6 +64,7 @@ class DashboardController extends Controller
                 'faqs' => Faq::orderBy('pinned', 'desc')->orderBy('created_at', 'desc')->get(),
                 'featuredArticles' => Article::published()->featured()->orderBy('published_at', 'desc')->limit(3)->get(),
                 'articles' => Article::published()->orderBy('published_at', 'desc')->limit(3)->get(),
+                'tutors' => Tutor::with('user')->where('is_active', true)->orderBy('created_at', 'desc')->get(),
             ];
         }
 
@@ -71,6 +73,7 @@ class DashboardController extends Controller
             'faqs' => Faq::orderBy('pinned', 'desc')->orderBy('created_at', 'desc')->get(),
             'featuredArticles' => Article::published()->featured()->orderBy('published_at', 'desc')->limit(3)->get(),
             'articles' => Article::published()->orderBy('published_at', 'desc')->limit(3)->get(),
+            'tutors' => Tutor::with('user')->where('is_active', true)->orderBy('created_at', 'desc')->get(),
         ];
     }
 

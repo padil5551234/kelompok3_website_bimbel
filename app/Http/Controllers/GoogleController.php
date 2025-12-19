@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Auth\Events\Registered;
 
 class GoogleController extends Controller
 {
@@ -24,22 +25,35 @@ class GoogleController extends Controller
                         ->first();
 
             if ($findUser) {
+                // Cek apakah email sudah terverifikasi
+                if (!$findUser->hasVerifiedEmail()) {
+                    Auth::login($findUser);
+                    return redirect()->route('verification.notice');
+                }
+
                 Auth::login($findUser);
                 return redirect()->route('dashboard');
             } else {
+                // Buat user baru TANPA email_verified_at
+                // Sehingga mereka harus verifikasi email manual
                 $newUser = User::create([
                     'name' => $user->getName(),
                     'email' => $user->getEmail(),
                     'google_id' => $user->getId(),
-                    'email_verified_at' => Carbon::now(),
+                    'email_verified_at' => null, // Tidak langsung diverifikasi
                     'password' => 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, eligendi.',
                 ]);
 
                 // Assign user role
                 $newUser->assignRole('user');
 
+                // Trigger event untuk mengirim email verifikasi
+                event(new Registered($newUser));
+
                 Auth::login($newUser);
-                return redirect()->route('dashboard');
+                
+                // Redirect ke halaman verifikasi email
+                return redirect()->route('verification.notice');
             }
         } catch (\Exception $e) {
             return redirect('/login')->withErrors(['google' => 'Gagal login dengan Google. Silakan coba lagi.']);

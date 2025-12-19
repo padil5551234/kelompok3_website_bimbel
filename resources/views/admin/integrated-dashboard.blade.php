@@ -138,7 +138,7 @@
                                                     </div>
                                                     <div>
                                                         <h6 class="mb-1 font-weight-bold">{{ $course->nama }}</h6>
-                                                        <small class="text-muted">{{ Str::limit($course->deskripsi, 80) }}</small>
+                                                        <small class="text-muted">{!! Str::limit($course->deskripsi, 80) !!}</small>
                                                     </div>
                                                 </div>
                                             </td>

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Tutor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Permission\Models\Role;
 use Yajra\DataTables\DataTables;
 
@@ -29,20 +31,23 @@ class TutorController extends Controller
      */
     public function data()
     {
-        $tutors = User::with('roles')
+        $tutors = User::with('roles', 'tutorProfile')
             ->role('tutor')
             ->orderBy('name', 'asc');
 
         return datatables()
             ->eloquent($tutors)
             ->addIndexColumn()
+            ->addColumn('has_profile', function ($tutor) {
+                return $tutor->tutorProfile ? '<i class="fas fa-check text-success"></i>' : '<i class="fas fa-times text-muted"></i>';
+            })
             ->addColumn('aksi', function ($tutor) {
                 return view('admin.tutor.actions', compact('tutor'));
             })
             ->editColumn('created_at', function ($tutor) {
                 return $tutor->created_at->format('d/m/Y H:i');
             })
-            ->rawColumns(['aksi'])
+            ->rawColumns(['has_profile', 'aksi'])
             ->make(true);
     }
 
@@ -170,5 +175,55 @@ class TutorController extends Controller
 
         return redirect()->route('admin.tutor.index')
             ->with('success', 'Password tutor berhasil direset');
+    }
+
+    /**
+     * Show the form for editing tutor profile.
+     */
+    public function profile(User $tutor)
+    {
+        $this->authorize('update', $tutor);
+
+        $tutorProfile = $tutor->tutorProfile ?? new Tutor(['user_id' => $tutor->id]);
+        $action = route('admin.tutor.updateProfile', $tutor->id);
+
+        return view('admin.tutor.profile', compact('tutor', 'tutorProfile', 'action'));
+    }
+
+    /**
+     * Update the specified tutor profile.
+     */
+    public function updateProfile(Request $request, User $tutor)
+    {
+        $this->authorize('update', $tutor);
+
+        $request->validate([
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'bio' => 'nullable|string|max:1000',
+            'specialization' => 'nullable|string|max:255',
+            'experience' => 'nullable|string|max:255',
+            'is_active' => 'boolean',
+        ]);
+
+        $tutorProfile = $tutor->tutorProfile ?? new Tutor(['user_id' => $tutor->id]);
+
+        $tutorProfile->bio = $request->bio;
+        $tutorProfile->specialization = $request->specialization;
+        $tutorProfile->experience = $request->experience;
+        $tutorProfile->is_active = $request->has('is_active');
+
+        if ($request->hasFile('image')) {
+            // Delete old image
+            if ($tutorProfile->image && Storage::disk('public')->exists($tutorProfile->image)) {
+                Storage::disk('public')->delete($tutorProfile->image);
+            }
+            $imagePath = $request->file('image')->store('tutors', 'public');
+            $tutorProfile->image = $imagePath;
+        }
+
+        $tutorProfile->save();
+
+        return redirect()->route('admin.tutor.index')
+            ->with('success', 'Profile tutor berhasil diperbarui');
     }
 }

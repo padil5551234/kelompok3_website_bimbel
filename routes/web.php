@@ -98,6 +98,12 @@ Route::prefix('admin')
         Route::get('/tutor/data', [\App\Http\Controllers\Admin\TutorController::class, 'data'])->name(
             'tutor.data'
         );
+        Route::get('/tutor/{tutor}/profile', [\App\Http\Controllers\Admin\TutorController::class, 'profile'])->name(
+            'tutor.profile'
+        );
+        Route::put('/tutor/{tutor}/profile', [\App\Http\Controllers\Admin\TutorController::class, 'updateProfile'])->name(
+            'tutor.updateProfile'
+        );
         Route::resource('tutor', \App\Http\Controllers\Admin\TutorController::class);
         Route::post('/tutor/resetPassword/{tutor}', [
             \App\Http\Controllers\Admin\TutorController::class,
@@ -185,6 +191,21 @@ Route::prefix('admin')
         Route::resource(
             'faq',
             \App\Http\Controllers\Admin\FaqController::class
+        );
+    });
+
+//route data testimonial
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth', 'verified', 'role:admin'])
+    ->group(function () {
+        Route::get('/testimonial/data', [
+            \App\Http\Controllers\Admin\TestimonialController::class,
+            'data',
+        ])->name('testimonial.data');
+        Route::resource(
+            'testimonial',
+            \App\Http\Controllers\Admin\TestimonialController::class
         );
     });
 
@@ -541,6 +562,12 @@ Route::prefix('tutor')
     ->group(function () {
         Route::get('/dashboard', [App\Http\Controllers\Tutor\TutorController::class, 'dashboard'])
             ->name('dashboard');
+
+        // Profile management
+        Route::get('/profile', [App\Http\Controllers\Tutor\TutorController::class, 'profile'])
+            ->name('profile');
+        Route::put('/profile', [App\Http\Controllers\Tutor\TutorController::class, 'updateProfile'])
+            ->name('profile.update');
         
         // Live Classes
         Route::resource('live-classes', App\Http\Controllers\Tutor\LiveClassController::class);

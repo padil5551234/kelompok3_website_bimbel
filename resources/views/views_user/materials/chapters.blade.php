@@ -502,6 +502,10 @@
     position: absolute;
 }
 
+.progress-circle.progress-complete::before {
+    background: #28a745;
+}
+
 .progress-value {
     position: relative;
     z-index: 1;
@@ -676,7 +680,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const progressCircles = document.querySelectorAll('.progress-circle');
     progressCircles.forEach(circle => {
         const progress = circle.getAttribute('data-progress');
-        circle.style.setProperty('--progress', progress + 'deg');
+        const degrees = Math.min((progress / 100) * 360, 359.999);
+        circle.style.setProperty('--progress', degrees + 'deg');
+
+        // Make entire circle green at 100%
+        if (progress >= 100) {
+            circle.classList.add('progress-complete');
+        }
     });
 
     // Add click handler for chapter toggle

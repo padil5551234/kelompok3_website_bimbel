@@ -370,7 +370,8 @@ class RaportController extends Controller
                 'achievements', 'recommendations', 'learningTimeline', 'trends'
             ));
 
-            $filename = 'raport-belajar-' . auth()->user()->name . '-' . now()->format('Y-m-d') . '.pdf';
+            $userName = auth()->user() ? auth()->user()->name : 'user';
+            $filename = 'raport-belajar-' . $userName . '-' . now()->format('Y-m-d') . '.pdf';
 
             return $pdf->download($filename);
 

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Raport Belajar - {{ auth()->user()->name }}</title>
+    <title>Raport Belajar - {{ auth()->user() ? auth()->user()->name : 'User' }}</title>
     <style>
         body {
-            font-family: 'DejaVu Sans', sans-serif;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
             color: #333;
@@ -90,8 +90,8 @@
 <body>
     <div class="header">
         <h1>Raport Belajar</h1>
-        <p>Nama: {{ auth()->user()->name }}</p>
-        <p>Email: {{ auth()->user()->email }}</p>
+        <p>Nama: {{ auth()->user() ? auth()->user()->name : 'User' }}</p>
+        <p>Email: {{ auth()->user() ? auth()->user()->email : 'user@example.com' }}</p>
         <p>Dibuat pada: {{ now()->format('d M Y H:i') }}</p>
     </div>
 

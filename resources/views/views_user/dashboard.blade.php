@@ -150,7 +150,13 @@
     </section><!-- End Instructions Section -->
 
     <!-- ======= Testimonials Section ======= -->
-      <section class="testimonials" style="background: url('{{ asset('img/bg_testi.png') }}') center/cover no-repeat; position: relative;">
+    @php
+        $testimonials = \App\Models\Testimonial::where('is_active', true)->orderBy('created_at', 'desc')->get();
+    @endphp
+
+
+    @if($testimonials->count() > 0)
+    <section class="testimonials" style="background: url('{{ asset('img/bg_testi.png') }}') center/cover no-repeat; position: relative;">
         <div class="container">
             <div class="section-title">
                 <h2>Testimoni</h2>
@@ -159,264 +165,74 @@
 
             <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000">
                 <div class="carousel-indicators justify-content-center">
-                    <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="0" class="active"></button>
-                    <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="1"></button>
-                    <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="2"></button>
+                    @for($i = 0; $i < ceil($testimonials->count() / 3); $i++)
+                        <button type="button" data-bs-target="#testimonialCarousel" data-bs-slide-to="{{ $i }}" {{ $i == 0 ? 'class="active"' : '' }}></button>
+                    @endfor
                 </div>
 
                 <div class="carousel-inner">
-                    <!-- Slide 1 -->
-                    <div class="carousel-item active">
+                    @foreach($testimonials->chunk(3) as $index => $chunk)
+                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                         <div class="row">
+                            @foreach($chunk as $testimonial)
                             <div class="col-lg-4 col-md-6 mb-4">
                                 <div class="testimonial-card">
                                     <div class="testimonial-image-wrapper">
-                                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=350&fit=crop" alt="Ismi Maulfi Rahma">
-                                        
-                                        <!-- Badge Universitas & Jurusan -->
-                                        <div class="testimonial-badge">
-                                            <i class="bi bi-trophy-fill badge-icon"></i>
-                                            <div class="badge-text">
-                                                <span class="badge-university">STIS</span>
-                                                <span class="badge-major">Statistika</span>
-                                            </div>
+                                        @if($testimonial->image)
+                                            <img src="{{ asset('storage/' . $testimonial->image) }}" alt="{{ $testimonial->name }}">
+                                        @else
+                                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=350&fit=crop" alt="{{ $testimonial->name }}">
+                                        @endif
+
+                                        <!-- Rating Badge - Top Right -->
+                                        <div class="rating-badge">
+                                            @for($i = 1; $i <= 5; $i++)
+                                                @if($i <= $testimonial->rating)
+                                                    <i class="bi bi-star-fill text-warning"></i>
+                                                @else
+                                                    <i class="bi bi-star text-muted"></i>
+                                                @endif
+                                            @endfor
                                         </div>
+
+                                        <!-- Badge Lulusan - Top Left (compact) -->
+                                        @if($testimonial->graduation)
+                                        <div class="testimonial-badge">
+                                            <i class="bi bi-graduation-cap badge-icon"></i>
+                                            <span class="badge-text-compact">{{ Str::limit($testimonial->graduation, 18) }}</span>
+                                        </div>
+                                        @endif
 
                                         <!-- Name Badge -->
                                         <div class="testimonial-name-badge">
-                                            <h4>ISMI MAULFI RAHMA</h4>
+                                            <h4>{{ strtoupper($testimonial->name) }}</h4>
                                         </div>
                                     </div>
                                     <div class="testimonial-content">
                                         <p class="testimonial-text">
-                                            Makasih banyak DinasSolution, video dan tryout dari DinasSolution bantu banget. Tryout bener" mirip dengan soal asli SPMB STIS. Penyampaian materi juga seru, jadi belajarnya rileks dan ngga tegang. Banyak juga trik-trik cepet yang ngebantu banget. Terimakasih DinasSolution, Sukses selalu!
+                                            {{ $testimonial->message }}
                                         </p>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-lg-4 col-md-6 mb-4">
-                                <div class="testimonial-card">
-                                    <div class="testimonial-image-wrapper">
-                                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=350&fit=crop" alt="Zalsa Archyta">
-                                        
-                                        <div class="testimonial-badge">
-                                            <i class="bi bi-trophy-fill badge-icon"></i>
-                                            <div class="badge-text">
-                                                <span class="badge-university">STIS</span>
-                                                <span class="badge-major">Statistika</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="testimonial-name-badge">
-                                            <h4>ZALSA ARCHYTA</h4>
-                                        </div>
-                                    </div>
-                                    <div class="testimonial-content">
-                                        <p class="testimonial-text">
-                                            Alhamdulillah berkat DinasSolution aku bisa masuk ke STIS dan jurusan yang aku impikan. Kalian harus cobain juga sebab pembelajarannya yang selalu seru. Aku bisa kamu juga pasti bisa! Karna C ituuuu Cintaaaaaaa
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 mb-4 d-none d-lg-block">
-                                <div class="testimonial-card">
-                                    <div class="testimonial-image-wrapper">
-                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=350&fit=crop" alt="Ganda Sibarani">
-                                        
-                                        <div class="testimonial-badge">
-                                            <i class="bi bi-trophy-fill badge-icon"></i>
-                                            <div class="badge-text">
-                                                <span class="badge-university">STIS</span>
-                                                <span class="badge-major">Statistika</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="testimonial-name-badge">
-                                            <h4>GANDA SIBARANI</h4>
-                                        </div>
-                                    </div>
-                                    <div class="testimonial-content">
-                                        <p class="testimonial-text">
-                                            Belajarnya seru, para tim orangnya asik dan menarik cara mengajarnya friendly banget dan seru. Selalu kasih video hasil record dan ss-an hasil pembahasan soal SPMB STIS. Keren banget lah
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
-
-                    <!-- Slide 2 -->
-                    <div class="carousel-item">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-6 mb-4">
-                                <div class="testimonial-card">
-                                    <div class="testimonial-image-wrapper">
-                                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=350&fit=crop" alt="Siti Nurhaliza">
-                                        
-                                        <div class="testimonial-badge">
-                                            <i class="bi bi-trophy-fill badge-icon"></i>
-                                            <div class="badge-text">
-                                                <span class="badge-university">STIS</span>
-                                                <span class="badge-major">Statistika</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="testimonial-name-badge">
-                                            <h4>SITI NURHALIZA</h4>
-                                        </div>
-                                    </div>
-                                    <div class="testimonial-content">
-                                        <p class="testimonial-text">
-                                            Try out di DinasSolution sangat membantu persiapan saya. Soal-soalnya mirip dengan ujian asli SPMB STIS. Alhamdulillah sekarang saya sudah mahasiswa STIS!
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 mb-4 d-none d-lg-block">
-                                <div class="testimonial-card">
-                                    <div class="testimonial-image-wrapper">
-                                        <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&h=350&fit=crop" alt="Budi Santoso">
-                                        
-                                        <div class="testimonial-badge">
-                                            <i class="bi bi-trophy-fill badge-icon"></i>
-                                            <div class="badge-text">
-                                                <span class="badge-university">PKN STAN</span>
-                                                <span class="badge-major">Akuntansi</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="testimonial-name-badge">
-                                            <h4>BUDI SANTOSO</h4>
-                                        </div>
-                                    </div>
-                                    <div class="testimonial-content">
-                                        <p class="testimonial-text">
-                                            Mentor-mentornya sabar dan profesional. Materi yang diajarkan sangat terstruktur dan mudah dipahami. Recommended banget untuk persiapan kedinasan!
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 mb-4 d-none d-lg-block">
-                                <div class="testimonial-card">
-                                    <div class="testimonial-image-wrapper">
-                                        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=350&fit=crop" alt="Rina Fitriani">
-                                        
-                                        <div class="testimonial-badge">
-                                            <i class="bi bi-trophy-fill badge-icon"></i>
-                                            <div class="badge-text">
-                                                <span class="badge-university">IPDN</span>
-                                                <span class="badge-major">Manajemen Pemerintahan</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="testimonial-name-badge">
-                                            <h4>RINA FITRIANI</h4>
-                                        </div>
-                                    </div>
-                                    <div class="testimonial-content">
-                                        <p class="testimonial-text">
-                                            Harga terjangkau dengan kualitas premium. Sistem CAT-nya membuat saya terbiasa dengan ujian sebenarnya. Terima kasih DinasSolution!
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Slide 3 -->
-                    <div class="carousel-item">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-6 mb-4">
-                                <div class="testimonial-card">
-                                    <div class="testimonial-image-wrapper">
-                                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&h=350&fit=crop" alt="Dimas Prasetyo">
-                                        
-                                        <div class="testimonial-badge">
-                                            <i class="bi bi-trophy-fill badge-icon"></i>
-                                            <div class="badge-text">
-                                                <span class="badge-university">STIN</span>
-                                                <span class="badge-major">Teknologi Industri</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="testimonial-name-badge">
-                                            <h4>DIMAS PRASETYO</h4>
-                                        </div>
-                                    </div>
-                                    <div class="testimonial-content">
-                                        <p class="testimonial-text">
-                                            Pembahasan soal-soalnya sangat detail dan mudah dipahami. Saya yang awalnya lemah di matematika jadi lebih percaya diri menghadapi SPMB!
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 mb-4 d-none d-lg-block">
-                                <div class="testimonial-card">
-                                    <div class="testimonial-image-wrapper">
-                                        <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=400&h=350&fit=crop" alt="Anisa Putri">
-                                        
-                                        <div class="testimonial-badge">
-                                            <i class="bi bi-trophy-fill badge-icon"></i>
-                                            <div class="badge-text">
-                                                <span class="badge-university">AIM</span>
-                                                <span class="badge-major">Manajemen Imigrasi</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="testimonial-name-badge">
-                                            <h4>ANISA PUTRI</h4>
-                                        </div>
-                                    </div>
-                                    <div class="testimonial-content">
-                                        <p class="testimonial-text">
-                                            Try out rutin setiap minggu membuat saya terlatih mengatur waktu. Sistem ranking juga memotivasi saya untuk terus belajar lebih giat!
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-6 mb-4 d-none d-lg-block">
-                                <div class="testimonial-card">
-                                    <div class="testimonial-image-wrapper">
-                                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=350&fit=crop" alt="Maya Safitri">
-                                        
-                                        <div class="testimonial-badge">
-                                            <i class="bi bi-trophy-fill badge-icon"></i>
-                                            <div class="badge-text">
-                                                <span class="badge-university">POLTEKIM</span>
-                                                <span class="badge-major">Kimia Industri</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="testimonial-name-badge">
-                                            <h4>MAYA SAFITRI</h4>
-                                        </div>
-                                    </div>
-                                    <div class="testimonial-content">
-                                        <p class="testimonial-text">
-                                            Grup WhatsApp sangat membantu untuk diskusi soal. Kakak mentor juga responsif menjawab pertanyaan. Worth it banget!
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
 
+                @if($testimonials->count() > 3)
                 <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 </button>
                 <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 </button>
+                @endif
             </div>
         </div>
     </section>
+    @endif
 
     <!-- My Courses Section - For authenticated users with purchases -->
     @if(isset($purchasedPackages) && $purchasedPackages->isNotEmpty())
@@ -500,6 +316,7 @@
     </section><!-- End Pricing Section -->
 
     <!-- ======= Tutor Section ======= -->
+    @if(isset($tutors) && $tutors->count() > 0)
     <section id="tutors" class="tutors" style="background: linear-gradient(135deg, #fef7ff, #f3e8ff); position: relative;">
         <div class="container">
             <div class="section-title" data-aos="fade-up">
@@ -508,47 +325,28 @@
             </div>
 
             <div class="row" data-aos="fade-up" data-aos-delay="100">
+                @foreach($tutors as $tutor)
                 <div class="col-lg-4 col-md-6 mb-4">
                     <div class="tutor-card">
                         <div class="tutor-image">
-                            <img src="{{ asset('img/aulia.png') }}" alt="Kak aulia">
+                            @if($tutor->image)
+                                <img src="{{ asset('storage/' . $tutor->image) }}" alt="{{ $tutor->user->name }}">
+                            @else
+                                <img src="{{ asset('img/default-tutor.png') }}" alt="{{ $tutor->user->name }}">
+                            @endif
                         </div>
                         <div class="tutor-info text-center">
-                            <h3>Kak Aulia</h3>
-                            <p class="tutor-title">Mahasiswa STIS Angkatan 62</p>
-                            <p class="tutor-desc">Spesialis Matematika dan SKD dengan pengalaman mengajar lebih dari 3 tahun</p>
+                            <h3>{{ $tutor->user->name }}</h3>
+                            <p class="tutor-title">{{ $tutor->specialization ?: 'Tutor DinasSolution' }}</p>
+                            <p class="tutor-desc">{{ $tutor->bio ?: 'Pengajar berpengalaman di bidang kedinasan' }}</p>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="tutor-card">
-                        <div class="tutor-image">
-                            <img src="{{ asset('img/dicky.png') }}" alt="Kak Dicky">
-                        </div>
-                        <div class="tutor-info text-center">
-                            <h3>Kak Dicky</h3>
-                            <p class="tutor-title">Mahasiswa STIS Angkatan 62</p>
-                            <p class="tutor-desc">Expert dalam persiapan SPMB STIS dan sekolah kedinasan lainnya</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="tutor-card">
-                        <div class="tutor-image">
-                            <img src="{{ asset('img/padil.png') }}" alt="Kak Padil">
-                        </div>
-                        <div class="tutor-info text-center">
-                            <h3>Kak Padil</h3>
-                            <p class="tutor-title">Mahasiswa STIS Angkatan 65</p>
-                            <p class="tutor-desc">Berpengalaman dalam membimbing siswa lolos seleksi kedinasan</p>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>
+    @endif
     <!-- ======= Articles Section ======= -->
     @if (isset($articles) && $articles->count() > 0)
         <section id="articles" class="articles" style="background: linear-gradient(135deg, rgba(147, 51, 234, 0.05), rgba(124, 58, 237, 0.05)), url('{{ asset('img/articles-bg.jpg') }}') center/cover no-repeat; position: relative;">
@@ -802,6 +600,7 @@
             width: 100%;
             height: 350px;
             overflow: hidden;
+            border-radius: 20px 20px 0 0;
         }
 
         .testimonial-image-wrapper img {
@@ -815,44 +614,57 @@
             transform: scale(1.05);
         }
 
-        /* Badge di atas foto */
+        /* Badge di atas foto (top left) - compact & semi-transparent */
         .testimonial-badge {
             position: absolute;
-            top: 20px;
-            left: 20px;
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+            top: 10px;
+            left: 10px;
+            background: rgba(147, 51, 234, 0.85);
             color: white;
-            padding: 12px 20px;
-            border-radius: 12px;
+            padding: 6px 10px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 6px;
             font-weight: 600;
-            font-size: 14px;
-            box-shadow: 0 4px 15px rgba(184, 58, 94, 0.4);
-            z-index: 2;
+            font-size: 11px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            z-index: 3;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .badge-icon {
-            font-size: 24px;
+            font-size: 16px;
         }
 
-        .badge-text {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.2;
-        }
-
-        .badge-university {
-            font-size: 11px;
-            opacity: 0.95;
+        .badge-text-compact {
+            font-size: 10px;
             font-weight: 500;
+            line-height: 1.2;
+            opacity: 0.95;
         }
 
-        .badge-major {
-            font-size: 13px;
-            font-weight: 700;
-            text-transform: uppercase;
+        /* Rating Badge - Top Right (compact & semi-transparent) */
+        .rating-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.85);
+            color: #f59e0b;
+            padding: 6px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            z-index: 20;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            backdrop-filter: blur(4px);
+        }
+
+        .rating-badge i {
+            font-size: 11px;
+            margin: 0 1px;
+            filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.1));
         }
 
         /* Name Badge di bawah foto */
@@ -950,6 +762,9 @@
     top: auto;
     transition: all 0.3s ease;
     box-shadow: 0 4px 12px rgba(184, 58, 94, 0.3);
+    z-index: 15;
+    border: none;
+    cursor: pointer;
 }
 
 #testimonialCarousel .carousel-control-prev {
@@ -1662,6 +1477,41 @@
             document.addEventListener('DOMContentLoaded', initFAQToggle);
         } else {
             initFAQToggle();
+        }
+
+        // Initialize testimonial carousel
+        const initTestimonialCarousel = () => {
+            const carousel = document.getElementById('testimonialCarousel');
+            if (carousel && typeof bootstrap !== 'undefined') {
+                const bsCarousel = new bootstrap.Carousel(carousel, {
+                    interval: 4000,
+                    wrap: true,
+                    touch: true
+                });
+
+                // Add click handlers for controls
+                const prevBtn = carousel.querySelector('.carousel-control-prev');
+                const nextBtn = carousel.querySelector('.carousel-control-next');
+
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', () => {
+                        bsCarousel.prev();
+                    });
+                }
+
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', () => {
+                        bsCarousel.next();
+                    });
+                }
+            }
+        };
+
+        // Initialize carousel when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initTestimonialCarousel);
+        } else {
+            initTestimonialCarousel();
         }
     })();
 </script>

@@ -70,12 +70,19 @@ try {
         $response = $controller->exportPdf();
         echo "✅ exportPdf() method executed successfully\n";
         echo "Response type: " . get_class($response) . "\n";
-        
-        // Check JSON response
-        $jsonData = $response->getData();
-        echo "Export PDF response: " . json_encode($jsonData) . "\n";
+
+        // Check if it's a JSON error response
+        if (method_exists($response, 'getData')) {
+            $jsonData = $response->getData();
+            if (isset($jsonData->error)) {
+                echo "❌ PDF Export Error: " . $jsonData->error . "\n";
+            } else {
+                echo "Export PDF response: " . json_encode($jsonData) . "\n";
+            }
+        }
     } catch (Exception $e) {
         echo "❌ Error in exportPdf() method: " . $e->getMessage() . "\n";
+        echo "Stack trace:\n" . $e->getTraceAsString() . "\n";
     }
     
     echo "\n=== RaportController Test Summary ===\n";

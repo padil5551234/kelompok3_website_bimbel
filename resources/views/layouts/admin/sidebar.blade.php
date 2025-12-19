@@ -164,6 +164,14 @@
                         </p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ route('admin.testimonial.index') }}" class="nav-link {{ request()->segment(2) == 'testimonial' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-comments"></i>
+                        <p>
+                            Testimonial
+                        </p>
+                    </a>
+                </li>
                 @endrole
             </ul>
         </nav>

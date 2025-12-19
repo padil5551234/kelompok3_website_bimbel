@@ -27,9 +27,9 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 5%">No</th>
-                                        <th>Materi</th>
                                         <th>Nama</th>
                                         <th>Email</th>
+                                        <th>Profile</th>
                                         <th>Dibuat</th>
                                         <th style="width: 15%"><i class="fa fa-cog"></i></th>
                                     </tr>
@@ -81,6 +81,9 @@
                     data: 'email'
                 }
                     , {
+                    data: 'has_profile'
+                }
+                    , {
                     data: 'created_at'
                 }
                     , {
@@ -91,7 +94,7 @@
                     ,]
                 , dom: '<"container-fluid"<"row"<"col"B><"col"l><"col"f>>>rtip'
                 , columnDefs: [
-                    { className: 'text-center', targets: [0, 3, 4] },
+                    { className: 'text-center', targets: [0, 3, 4, 5] },
                 ]
             });
 
@@ -249,6 +252,10 @@
                 field.attr('type', 'password');
                 icon.removeClass('fa-eye-slash').addClass('fa-eye');
             }
+        }
+
+        function manageProfile(url) {
+            window.location.href = url;
         }
 
         function resetPassword(url) {
